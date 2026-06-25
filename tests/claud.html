@@ -1,0 +1,271 @@
+<!doctype html>
+<!-- tells the browser "this is modern HTML5, don't do anything weird" -->
+
+<html lang="en">
+    <!-- lang="en" helps screen readers and search engines know the language -->
+
+    <head>
+        <!-- head = stuff the browser needs but the user doesn't see directly -->
+
+        <meta charset="UTF-8" />
+        <!-- makes sure special characters (é, ñ, etc.) don't turn into garbage -->
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- THIS IS CRUCIAL for mobile. without it, mobile browsers zoom out and make everything tiny -->
+
+        <title>Alex Rivera</title>
+        <!-- the tab title -->
+
+        <!-- pulling in two google fonts. DM Sans for body text, Playfair Display for the big name -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Playfair+Display:wght@700&display=swap"
+            rel="stylesheet"
+        />
+
+        <style>
+            /* ── RESET & BASE ───────────────────────────────────────── */
+
+            * {
+                /* * means "every single element on the page" */
+                margin: 0;
+                padding: 0;
+                /* browsers add their own default margins/padding. this nukes all of that */
+                box-sizing: border-box;
+                /* by default, padding ADDS to an element's size. this makes it NOT do that.
+         so if you say width: 200px and add padding: 20px, it stays 200px total.
+         basically everyone wants this behavior. always include it. */
+            }
+
+            /* ── CSS VARIABLES ──────────────────────────────────────── */
+
+            :root {
+                /* :root is the top of the page (the <html> element).
+         putting variables here makes them available everywhere */
+                --bg: #0f1117; /* deep navy — main background */
+                --surface: #1a1d27; /* slightly lighter navy — card background */
+                --text: #e8e6e0; /* warm off-white — main text */
+                --muted: #8a8fa8; /* grey-blue — secondary text */
+                --accent: #f0a500; /* amber — used sparingly for impact */
+                --border: #2a2d3d; /* subtle border color */
+            }
+
+            /* ── BODY ───────────────────────────────────────────────── */
+
+            body {
+                background-color: var(--bg);
+                /* var(--bg) reads the variable we defined above */
+                color: var(--text);
+                /* sets the default text color for the whole page */
+                font-family: "DM Sans", sans-serif;
+                /* sets the default font. 'sans-serif' at the end is a fallback
+         if DM Sans fails to load for some reason */
+                min-height: 100vh;
+                /* vh = viewport height. 100vh = the full height of the browser window.
+         min-height means it can grow taller, but never shorter */
+                display: flex;
+                /* flexbox! this turns the body into a flex container */
+                align-items: center;
+                /* centers children vertically */
+                justify-content: center;
+                /* centers children horizontally */
+                padding: 24px;
+                /* breathing room on small screens so the card doesn't touch the edges */
+            }
+
+            /* ── CARD ───────────────────────────────────────────────── */
+
+            .card {
+                /* . means "class selector" — targets any element with class="card" */
+                background: var(--surface);
+                border: 1px solid var(--border);
+                /* 1px solid line using our border color */
+                border-radius: 16px;
+                /* rounds the corners. 0 = sharp square, higher = more rounded */
+                padding: 48px;
+                /* space inside the card between the content and the edges */
+                max-width: 520px;
+                /* never gets wider than 520px, but shrinks on small screens */
+                width: 100%;
+                /* takes up full available width (up to the max-width above) */
+            }
+
+            /* ── HEADER SECTION ─────────────────────────────────────── */
+
+            .header {
+                margin-bottom: 40px;
+                /* pushes whatever comes after it down by 40px */
+            }
+
+            .eyebrow {
+                /* small label above the name */
+                font-size: 11px;
+                font-weight: 500;
+                letter-spacing: 0.15em;
+                /* spreads the letters apart. em is relative to the font size */
+                text-transform: uppercase;
+                color: var(--muted);
+                margin-bottom: 12px;
+            }
+
+            .name {
+                font-family: "Playfair Display", serif;
+                /* overrides the body font just for this element */
+                font-size: 42px;
+                font-weight: 700;
+                line-height: 1.1;
+                /* controls spacing between lines. 1.1 = tight, 1.6 = airy */
+                color: var(--text);
+                margin-bottom: 16px;
+            }
+
+            .name span {
+                /* targets a <span> that's INSIDE an element with class="name" */
+                display: inline-block;
+                /* needed so border-bottom works properly on just this word */
+                border-bottom: 3px solid var(--accent);
+                /* THIS is the accent moment. one amber underline, nowhere else */
+                padding-bottom: 2px;
+            }
+
+            .tagline {
+                font-size: 16px;
+                font-weight: 300;
+                /* 300 = light weight */
+                color: var(--muted);
+                line-height: 1.6;
+            }
+
+            /* ── DIVIDER ────────────────────────────────────────────── */
+
+            .divider {
+                height: 1px;
+                /* a horizontal line, 1px tall */
+                background: var(--border);
+                margin: 32px 0;
+                /* margin: top/bottom left/right. so 32px top and bottom, 0 left and right */
+            }
+
+            /* ── BIO SECTION ────────────────────────────────────────── */
+
+            .bio {
+                font-size: 15px;
+                line-height: 1.7;
+                color: var(--muted);
+                margin-bottom: 32px;
+            }
+
+            /* ── SKILLS ─────────────────────────────────────────────── */
+
+            .label {
+                font-size: 11px;
+                font-weight: 500;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                color: var(--muted);
+                margin-bottom: 14px;
+            }
+
+            .skills {
+                display: flex;
+                /* puts the skill tags in a row */
+                flex-wrap: wrap;
+                /* when they run out of horizontal space, they wrap to the next line */
+                gap: 8px;
+                /* space between each tag */
+                margin-bottom: 36px;
+            }
+
+            .tag {
+                font-size: 13px;
+                color: var(--text);
+                background: var(--bg);
+                /* using the main bg color gives it that "cut out" look */
+                border: 1px solid var(--border);
+                border-radius: 6px;
+                padding: 6px 12px;
+                /* padding: top/bottom left/right */
+            }
+
+            /* ── LINKS ──────────────────────────────────────────────── */
+
+            .links {
+                display: flex;
+                gap: 12px;
+            }
+
+            .link {
+                font-size: 14px;
+                font-weight: 500;
+                color: var(--muted);
+                text-decoration: none;
+                /* removes the default underline from links */
+                padding: 10px 20px;
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                transition: all 0.2s ease;
+                /* transition makes changes animate smoothly instead of snapping.
+         'all' = animate any property that changes,
+         0.2s = takes 0.2 seconds,
+         'ease' = starts fast, slows down at the end */
+            }
+
+            .link:hover {
+                /* :hover = styles that only apply when the mouse is over the element */
+                color: var(--text);
+                border-color: var(--text);
+                /* the transition above makes this change animate smoothly */
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="card">
+            <!-- div is just a generic box. it does nothing by itself — CSS gives it meaning -->
+
+            <div class="header">
+                <p class="eyebrow">Full-Stack Developer</p>
+
+                <h1 class="name">
+                    Alex <span>Rivera</span>
+                    <!-- the <span> wraps just one word so we can style it differently.
+             span is like div but inline — it doesn't break to a new line -->
+                </h1>
+
+                <p class="tagline">
+                    Building things for the web.<br />Based in Istanbul.
+                </p>
+                <!-- <br> forces a line break -->
+            </div>
+
+            <div class="divider"></div>
+            <!-- empty div — just used as a visual line -->
+
+            <p class="bio">
+                I like clean code and messier problems. Currently focused on
+                making web apps that are fast, accessible, and actually nice to
+                use. Open to freelance work.
+            </p>
+
+            <p class="label">Currently into</p>
+            <div class="skills">
+                <!-- each tag is just a span with the "tag" class -->
+                <span class="tag">HTML & CSS</span>
+                <span class="tag">JavaScript</span>
+                <span class="tag">Node.js</span>
+                <span class="tag">PostgreSQL</span>
+                <span class="tag">Figma</span>
+            </div>
+
+            <div class="links">
+                <a href="#" class="link">GitHub</a>
+                <!-- <a> is the anchor tag — makes links. href is where it goes.
+           # is a placeholder that goes nowhere -->
+                <a href="#" class="link">Twitter</a>
+                <a href="mailto:alex@example.com" class="link">Email</a>
+                <!-- mailto: opens the user's email app with a new message -->
+            </div>
+        </div>
+    </body>
+</html>

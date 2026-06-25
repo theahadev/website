@@ -1,0 +1,774 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>realm.</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Geist:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            :root {
+                --background: oklch(0.145 0 0);
+                --foreground: oklch(0.985 0 0);
+                --muted: oklch(0.269 0 0);
+                --muted-fg: oklch(0.708 0 0);
+                --border: oklch(0.269 0 0);
+                --primary: oklch(0.985 0 0);
+                --secondary: oklch(0.269 0 0);
+                --secondary-fg: oklch(0.985 0 0);
+                --radius: 0.625rem;
+            }
+
+            body {
+                font-family: "Geist", sans-serif;
+                background: var(--background);
+                color: var(--foreground);
+                min-height: 100vh;
+            }
+
+            /* ── navbar ── */
+            .navbar {
+                position: sticky;
+                top: 0;
+                z-index: 50;
+                width: 100%;
+                border-bottom: 1px solid var(--border);
+                background: var(--background);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 12px 20px;
+            }
+            .navbar-brand {
+                font-size: 1.2rem;
+                font-weight: 600;
+                color: var(--foreground);
+                text-decoration: none;
+            }
+            .navbar-right {
+                display: flex;
+                gap: 8px;
+                align-items: center;
+            }
+            .icon-btn {
+                width: 34px;
+                height: 34px;
+                border-radius: var(--radius);
+                border: 1px solid var(--border);
+                background: transparent;
+                color: var(--muted-fg);
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition:
+                    color 0.15s,
+                    background 0.15s;
+            }
+            .icon-btn:hover {
+                color: var(--foreground);
+                background: var(--muted);
+            }
+            .icon-btn svg {
+                width: 16px;
+                height: 16px;
+                stroke: currentColor;
+                fill: none;
+                stroke-width: 1.8;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+            }
+
+            /* ── layout ── */
+            .container {
+                max-width: 720px;
+                margin: 0 auto;
+                padding: 24px 16px 48px;
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            /* ── card shell ── */
+            .card {
+                width: 100%;
+                background: var(--background);
+                border-radius: var(--radius);
+                border: 1px solid var(--border);
+                overflow: hidden;
+            }
+            .card-header {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 10px 20px;
+                border-bottom: 1px solid var(--border);
+                color: var(--muted-fg);
+                font-family: "Geist Mono", monospace;
+                font-size: 13px;
+            }
+            .card-header svg {
+                width: 15px;
+                height: 15px;
+                stroke: currentColor;
+                fill: none;
+                stroke-width: 1.8;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                flex-shrink: 0;
+            }
+            .card-body {
+                padding: 12px 20px;
+                font-size: 14px;
+                line-height: 1.65;
+                color: var(--foreground);
+            }
+            .card-body p {
+                margin: 0;
+            }
+
+            /* ── hero ── */
+            .hero {
+                overflow: hidden;
+            }
+            .hero-banner {
+                height: 130px;
+                background: var(--muted);
+                display: flex;
+                align-items: flex-end;
+                justify-content: center;
+                padding-bottom: 12px;
+                position: relative;
+                overflow: hidden;
+            }
+            .hero-banner::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 20px,
+                    oklch(0.3 0 0) 20px,
+                    oklch(0.3 0 0) 21px
+                );
+                opacity: 0.3;
+            }
+            .hero-banner-pill {
+                position: relative;
+                z-index: 1;
+                background: oklch(0.145 0 0 / 0.8);
+                border: 1px solid var(--border);
+                border-radius: 999px;
+                padding: 4px 16px;
+                font-family: "Geist Mono", monospace;
+                font-size: 13px;
+                color: var(--muted-fg);
+                backdrop-filter: blur(8px);
+            }
+            .hero-profile-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-end;
+                padding: 0 20px 14px;
+            }
+            .hero-left {
+                display: flex;
+                align-items: flex-end;
+                gap: 14px;
+            }
+            .hero-avatar {
+                width: 64px;
+                height: 64px;
+                border-radius: 50%;
+                background: var(--muted);
+                border: 3px solid var(--background);
+                margin-top: -32px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                overflow: hidden;
+            }
+            .hero-avatar svg {
+                width: 28px;
+                height: 28px;
+                stroke: var(--muted-fg);
+                fill: none;
+                stroke-width: 1.5;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+            }
+            .hero-name {
+                font-size: 1.1rem;
+                font-weight: 600;
+                padding-bottom: 4px;
+            }
+            .hero-links {
+                display: flex;
+                gap: 6px;
+            }
+
+            /* ── services grid ── */
+            .services-intro {
+                padding: 10px 20px 0;
+                font-size: 14px;
+                line-height: 1.65;
+                border-bottom: 1px solid var(--border);
+                padding-bottom: 10px;
+            }
+            .services-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+            .svc-name {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 10px 16px;
+                border-bottom: 1px solid var(--border);
+                border-right: 1px solid var(--border);
+                background: var(--muted);
+                font-size: 13px;
+            }
+            .svc-name svg {
+                width: 15px;
+                height: 15px;
+                stroke: currentColor;
+                fill: none;
+                stroke-width: 1.8;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                flex-shrink: 0;
+            }
+            .svc-link {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 6px;
+                padding: 10px 16px;
+                border-bottom: 1px solid var(--border);
+                font-size: 13px;
+                color: var(--muted-fg);
+                text-decoration: none;
+                transition:
+                    background 0.15s,
+                    color 0.15s;
+            }
+            .svc-link:hover {
+                background: var(--secondary);
+                color: var(--foreground);
+            }
+            .svc-link svg {
+                width: 14px;
+                height: 14px;
+                stroke: currentColor;
+                fill: none;
+                stroke-width: 1.8;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+            }
+            .svc-name.last,
+            .svc-link.last {
+                border-bottom: none;
+            }
+
+            /* ── projects ── */
+            .projects-list {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+            .project-item {
+                border: 1px solid var(--border);
+                border-radius: calc(var(--radius) - 2px);
+                padding: 12px 14px;
+            }
+            .project-title {
+                font-weight: 500;
+                font-size: 13px;
+                margin-bottom: 4px;
+                font-family: "Geist Mono", monospace;
+            }
+            .project-desc {
+                font-size: 12px;
+                color: var(--muted-fg);
+                margin-bottom: 8px;
+                line-height: 1.5;
+            }
+            .tags {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 4px;
+            }
+            .tag {
+                font-size: 11px;
+                font-family: "Geist Mono", monospace;
+                padding: 2px 8px;
+                border-radius: 4px;
+                border: 1px solid var(--border);
+                background: var(--muted);
+                color: var(--muted-fg);
+            }
+
+            /* ── marquee ── */
+            .marquee-section {
+                padding: 48px 0;
+                overflow: hidden;
+                white-space: nowrap;
+                position: relative;
+            }
+            .marquee-section::before,
+            .marquee-section::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                width: 80px;
+                z-index: 2;
+            }
+            .marquee-section::before {
+                left: 0;
+                background: linear-gradient(
+                    to right,
+                    var(--background),
+                    transparent
+                );
+            }
+            .marquee-section::after {
+                right: 0;
+                background: linear-gradient(
+                    to left,
+                    var(--background),
+                    transparent
+                );
+            }
+            .marquee-track {
+                display: inline-flex;
+            }
+            .marquee-inner {
+                display: inline-block;
+                font-family: "Geist Mono", monospace;
+                font-size: clamp(1.6rem, 5vw, 2.4rem);
+                font-weight: 600;
+                color: var(--muted-fg);
+                opacity: 0.35;
+                animation: marquee-scroll 20s linear infinite;
+                padding-right: 0;
+            }
+            @keyframes marquee-scroll {
+                0% {
+                    transform: translateX(0);
+                }
+                100% {
+                    transform: translateX(-50%);
+                }
+            }
+
+            /* ── about links ── */
+            .card-body a {
+                color: var(--foreground);
+                text-underline-offset: 3px;
+            }
+            .card-body a:hover {
+                opacity: 0.7;
+            }
+
+            /* ── light mode (optional, matches realm) ── */
+            @media (prefers-color-scheme: light) {
+                :root {
+                    --background: oklch(1 0 0);
+                    --foreground: oklch(0.145 0 0);
+                    --muted: oklch(0.97 0 0);
+                    --muted-fg: oklch(0.556 0 0);
+                    --border: oklch(0.922 0 0);
+                    --secondary: oklch(0.97 0 0);
+                    --secondary-fg: oklch(0.205 0 0);
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- navbar -->
+        <nav class="navbar">
+            <a href="/" class="navbar-brand">realm.</a>
+            <div class="navbar-right">
+                <!-- github -->
+                <a
+                    href="https://github.com"
+                    target="_blank"
+                    rel="noopener"
+                    class="icon-btn"
+                    aria-label="GitHub"
+                >
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+                        />
+                    </svg>
+                </a>
+                <!-- theme toggle -->
+                <button
+                    class="icon-btn"
+                    aria-label="Toggle theme"
+                    onclick="toggleTheme()"
+                >
+                    <svg id="icon-sun" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="5" />
+                        <line x1="12" y1="1" x2="12" y2="3" />
+                        <line x1="12" y1="21" x2="12" y2="23" />
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                        <line x1="1" y1="12" x2="3" y2="12" />
+                        <line x1="21" y1="12" x2="23" y2="12" />
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                    </svg>
+                    <svg
+                        id="icon-moon"
+                        viewBox="0 0 24 24"
+                        style="display: none"
+                    >
+                        <path
+                            d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+                        />
+                    </svg>
+                </button>
+            </div>
+        </nav>
+
+        <main class="container">
+            <!-- hero -->
+            <div class="card hero">
+                <div class="hero-banner">
+                    <span class="hero-banner-pill">YOUR_NAME_HERE</span>
+                </div>
+                <div class="hero-profile-row">
+                    <div class="hero-left">
+                        <div class="hero-avatar">
+                            <!-- swap this img tag in when u have a photo: -->
+                            <!-- <img src="your-photo.jpg" alt="profile" style="width:100%;height:100%;object-fit:cover;" /> -->
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+                                />
+                                <circle cx="12" cy="7" r="4" />
+                            </svg>
+                        </div>
+                        <span class="hero-name">Lorem Ipsum</span>
+                    </div>
+                    <div class="hero-links">
+                        <a
+                            href="https://github.com"
+                            target="_blank"
+                            rel="noopener"
+                            class="icon-btn"
+                            aria-label="GitHub"
+                        >
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+                                />
+                            </svg>
+                        </a>
+                        <a
+                            href="https://t.me"
+                            target="_blank"
+                            rel="noopener"
+                            class="icon-btn"
+                            aria-label="Telegram"
+                        >
+                            <svg viewBox="0 0 24 24">
+                                <path d="m22 2-7 20-4-9-9-4 20-7z" />
+                                <path d="M22 2 11 13" />
+                            </svg>
+                        </a>
+                        <a
+                            href="mailto:you@example.com"
+                            class="icon-btn"
+                            aria-label="Email"
+                        >
+                            <svg viewBox="0 0 24 24">
+                                <rect
+                                    x="2"
+                                    y="4"
+                                    width="20"
+                                    height="16"
+                                    rx="2"
+                                />
+                                <path
+                                    d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"
+                                />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- description -->
+            <div class="card">
+                <div class="card-header">
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                        />
+                        <polyline points="14,2 14,8 20,8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                        <polyline points="10,9 9,9 8,9" />
+                    </svg>
+                    <span>DESCRIPTION.md</span>
+                </div>
+                <div class="card-body">
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        I make things, break things, and occasionally fix them.
+                        Based somewhere with good internet. Currently obsessed
+                        with homelab stuff and writing Python that reads like
+                        English.
+                    </p>
+                </div>
+            </div>
+
+            <!-- selfhosted -->
+            <div class="card">
+                <div class="card-header">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
+                        <rect
+                            x="2"
+                            y="14"
+                            width="20"
+                            height="8"
+                            rx="2"
+                            ry="2"
+                        />
+                        <line x1="6" y1="6" x2="6.01" y2="6" />
+                        <line x1="6" y1="18" x2="6.01" y2="18" />
+                    </svg>
+                    <span>SELFHOSTED.md</span>
+                </div>
+                <div class="services-intro">
+                    There are some services I self-host. It grows whenever I
+                    have a bad idea at 2am:
+                </div>
+                <div class="services-grid">
+                    <div class="svc-name">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="2" y1="12" x2="22" y2="12" />
+                            <path
+                                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+                            />
+                        </svg>
+                        Lorem Service
+                    </div>
+                    <a href="#" class="svc-link">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
+                            />
+                            <path
+                                d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+                            />
+                        </svg>
+                        Visit Site
+                    </a>
+                    <div class="svc-name">
+                        <svg viewBox="0 0 24 24">
+                            <ellipse cx="12" cy="5" rx="9" ry="3" />
+                            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+                            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+                        </svg>
+                        Ipsum Storage
+                    </div>
+                    <a href="#" class="svc-link">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
+                            />
+                            <path
+                                d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+                            />
+                        </svg>
+                        Visit Site
+                    </a>
+                    <div class="svc-name last">
+                        <svg viewBox="0 0 24 24">
+                            <rect
+                                x="3"
+                                y="11"
+                                width="18"
+                                height="11"
+                                rx="2"
+                                ry="2"
+                            />
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                        </svg>
+                        Dolor Private Thing
+                    </div>
+                    <a href="#" class="svc-link last">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
+                            />
+                            <path
+                                d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+                            />
+                        </svg>
+                        Visit Site
+                    </a>
+                </div>
+            </div>
+
+            <!-- projects -->
+            <div class="card">
+                <div class="card-header">
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="16 18 22 12 16 6" />
+                        <polyline points="8 6 2 12 8 18" />
+                    </svg>
+                    <span>PROJECTS.md</span>
+                </div>
+                <div class="card-body">
+                    <div class="projects-list">
+                        <div class="project-item">
+                            <div class="project-title">lorem-project</div>
+                            <div class="project-desc">
+                                Adipiscing elit sed do eiusmod tempor incididunt
+                                ut labore et dolore magna aliqua.
+                            </div>
+                            <div class="tags">
+                                <span class="tag">Python</span>
+                                <span class="tag">FastAPI</span>
+                                <span class="tag">SQLite</span>
+                            </div>
+                        </div>
+                        <div class="project-item">
+                            <div class="project-title">ipsum-bot</div>
+                            <div class="project-desc">
+                                Ut enim ad minim veniam quis nostrud
+                                exercitation ullamco laboris nisi.
+                            </div>
+                            <div class="tags">
+                                <span class="tag">Python</span>
+                                <span class="tag">Telethon</span>
+                                <span class="tag">asyncio</span>
+                            </div>
+                        </div>
+                        <div class="project-item">
+                            <div class="project-title">dolor-infra</div>
+                            <div class="project-desc">
+                                Duis aute irure dolor in reprehenderit in
+                                voluptate velit esse cillum dolore.
+                            </div>
+                            <div class="tags">
+                                <span class="tag">Proxmox</span>
+                                <span class="tag">Docker</span>
+                                <span class="tag">Nginx</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- about site -->
+            <div class="card">
+                <div class="card-header">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="8" x2="12" y2="12" />
+                        <line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                    <span>ABOUT_SITE.md</span>
+                </div>
+                <div class="card-body">
+                    <p>
+                        This site is built using plain HTML, CSS, and JS with a
+                        <a
+                            href="https://fastapi.tiangolo.com"
+                            target="_blank"
+                            rel="noopener"
+                            >FastAPI</a
+                        >
+                        backend. Hosted on my own server. Source code on
+                        <a
+                            href="https://github.com"
+                            target="_blank"
+                            rel="noopener"
+                            >GitHub</a
+                        >.
+                    </p>
+                </div>
+            </div>
+        </main>
+
+        <!-- marquee -->
+        <div class="marquee-section" aria-hidden="true">
+            <div class="marquee-track">
+                <div class="marquee-inner">
+                    LOREM IPSUM DOLOR SIT AMET &nbsp;·&nbsp; CONSECTETUR
+                    ADIPISCING ELIT &nbsp;·&nbsp; LOREM IPSUM DOLOR SIT AMET
+                    &nbsp;·&nbsp; CONSECTETUR ADIPISCING ELIT &nbsp;·&nbsp;
+                    LOREM IPSUM DOLOR SIT AMET &nbsp;·&nbsp; CONSECTETUR
+                    ADIPISCING ELIT &nbsp;·&nbsp; LOREM IPSUM DOLOR SIT AMET
+                    &nbsp;·&nbsp; CONSECTETUR ADIPISCING ELIT &nbsp;·&nbsp;
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const root = document.documentElement;
+            const sunIcon = document.getElementById("icon-sun");
+            const moonIcon = document.getElementById("icon-moon");
+
+            const prefersDark = window.matchMedia(
+                "(prefers-color-scheme: dark)",
+            ).matches;
+            let isDark = prefersDark;
+
+            function applyTheme() {
+                if (isDark) {
+                    root.style.setProperty("--background", "oklch(0.145 0 0)");
+                    root.style.setProperty("--foreground", "oklch(0.985 0 0)");
+                    root.style.setProperty("--muted", "oklch(0.269 0 0)");
+                    root.style.setProperty("--muted-fg", "oklch(0.708 0 0)");
+                    root.style.setProperty("--border", "oklch(0.269 0 0)");
+                    sunIcon.style.display = "block";
+                    moonIcon.style.display = "none";
+                } else {
+                    root.style.setProperty("--background", "oklch(1 0 0)");
+                    root.style.setProperty("--foreground", "oklch(0.145 0 0)");
+                    root.style.setProperty("--muted", "oklch(0.97 0 0)");
+                    root.style.setProperty("--muted-fg", "oklch(0.556 0 0)");
+                    root.style.setProperty("--border", "oklch(0.922 0 0)");
+                    sunIcon.style.display = "none";
+                    moonIcon.style.display = "block";
+                }
+            }
+
+            function toggleTheme() {
+                isDark = !isDark;
+                if (document.startViewTransition) {
+                    document.startViewTransition(applyTheme);
+                } else {
+                    applyTheme();
+                }
+            }
+
+            applyTheme();
+        </script>
+    </body>
+</html>

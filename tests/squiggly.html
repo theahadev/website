@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Squiggles</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                background: #0f1117;
+                color: #e8e6e0;
+                font-family: sans-serif;
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+
+            canvas {
+                flex: 1; /* takes up all available space */
+                display: block;
+            }
+
+            .controls {
+                display: flex;
+                gap: 20px;
+                align-items: center;
+                padding: 14px 24px;
+                background: #1a1d27;
+                border-top: 1px solid #2a2d3d;
+                flex-wrap: wrap;
+            }
+
+            .ctrl {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-size: 12px;
+                color: #8a8fa8;
+            }
+
+            input[type="range"] {
+                width: 90px;
+            }
+            .val {
+                min-width: 28px;
+                font-weight: 500;
+                color: #e8e6e0;
+            }
+
+            select {
+                font-size: 12px;
+                padding: 4px 8px;
+                background: #0f1117;
+                color: #e8e6e0;
+                border: 1px solid #2a2d3d;
+                border-radius: 6px;
+            }
+
+            button {
+                font-size: 12px;
+                padding: 6px 14px;
+                background: #0f1117;
+                color: #e8e6e0;
+                border: 1px solid #2a2d3d;
+                border-radius: 6px;
+                cursor: pointer;
+            }
+            button:hover {
+                border-color: #f0a500;
+                color: #f0a500;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="c"></canvas>
+
+        <div class="controls">
+            <div class="ctrl">
+                lines
+                <input
+                    type="range"
+                    id="lineCount"
+                    min="1"
+                    max="20"
+                    value="1"
+                    step="1"
+                />
+                <span class="val" id="lineCount-out">1</span>
+            </div>
+            <div class="ctrl">
+                speed
+                <input
+                    type="range"
+                    id="speed"
+                    min="1"
+                    max="10"
+                    value="3"
+                    step="1"
+                />
+                <span class="val" id="speed-out">3</span>
+            </div>
+            <div class="ctrl">
+                waviness
+                <input
+                    type="range"
+                    id="wave"
+                    min="10"
+                    max="200"
+                    value="80"
+                    step="1"
+                />
+                <span class="val" id="wave-out">80</span>
+            </div>
+            <div class="ctrl">
+                thickness
+                <input
+                    type="range"
+                    id="thick"
+                    min="1"
+                    max="12"
+                    value="2"
+                    step="1"
+                />
+                <span class="val" id="thick-out">2</span>
+            </div>
+            <div class="ctrl">
+                style
+                <select id="style">
+                    <option value="gradient">gradient lines</option>
+                    <option value="rainbow">rainbow</option>
+                    <option value="white">white glow</option>
+                    <option value="pink">pink</option>
+                </select>
+            </div>
+            <button id="trail-btn">trails: off</button>
+            <button onclick="clearCanvas()">clear</button>
+        </div>
+
+        <script>
+            const canvas = document.getElementById("c");
+            const ctx = canvas.getContext("2d");
+
+            // make canvas fill its container
+            function resize() {
+                canvas.width = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+            }
+            resize();
+            window.addEventListener("resize", resize);
+
+            // each line has its own set of wave points
+            // a wave point has a y position and a velocity (speed of bouncing)
+            function makeLines(count) {
+                const lines = [];
+                for (let i = 0; i < count; i++) {
+                    lines.push({
+                        points: Array.from({ length: 12 }, () => ({
+                            y: canvas.height / 2 + (Math.random() - 0.5) * 200,
+                            vy: (Math.random() - 0.5) * 4, // velocity — how fast y is changing
+                        })),
+                        hue: (i / count) * 360, // color hue, spread evenly across lines
+                    });
+                }
+                return lines;
+            }
+
+            let lines = makeLines(1);
+            let trails = true;
+            let t = 0; // time counter
+
+            document
+                .getElementById("trail-btn")
+                .addEventListener("click", function () {
+                    trails = !trails;
+                    this.textContent = `trails: ${trails ? "on" : "off"}`;
+                });
+
+            function clearCanvas() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+
+            // sliders
+            function bindSlider(id) {
+                const el = document.getElementById(id);
+                const out = document.getElementById(id + "-out");
+                el.addEventListener("input", () => {
+                    out.textContent = el.value;
+                    if (id === "lineCount") lines = makeLines(+el.value);
+                });
+            }
+            ["lineCount", "speed", "wave", "thick"].forEach(bindSlider);
+
+            function getColor(line, alpha) {
+                const mode = document.getElementById("style").value;
+                if (mode === "rainbow")
+                    return `hsla(${line.hue}, 100%, 65%, ${alpha})`;
+                if (mode === "white") return `rgba(255,255,255,${alpha})`;
+                if (mode === "pink") return `hsla(320, 100%, 70%, ${alpha})`;
+                // gradient: shifts hue over time
+                return `hsla(${(line.hue + t * 0.5) % 360}, 90%, 65%, ${alpha})`;
+            }
+
+            function frame() {
+                const speed = +document.getElementById("speed").value * 0.01;
+                const wave = +document.getElementById("wave").value;
+                const thick = +document.getElementById("thick").value;
+
+                if (trails) {
+                    // semi-transparent overlay instead of full clear — leaves ghost trails
+                    ctx.fillStyle = "rgba(15, 17, 23, 0.15)";
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                } else {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+
+                lines.forEach((line) => {
+                    // update each point's y position
+                    line.points.forEach((p) => {
+                        p.y += p.vy * speed * 10;
+                        // bounce off top and bottom edges
+                        if (p.y < 40 || p.y > canvas.height - 40) p.vy *= -1;
+                        // add tiny random wobble so it never feels mechanical
+                        p.vy += (Math.random() - 0.5) * 0.3;
+                        // clamp velocity so it doesn't go crazy
+                        p.vy = Math.max(-8, Math.min(8, p.vy));
+                    });
+
+                    // draw the line through all the points using bezier curves
+                    ctx.beginPath();
+                    ctx.lineWidth = thick;
+                    ctx.strokeStyle = getColor(line, 0.8);
+
+                    // space points evenly across the width
+                    const step = canvas.width / (line.points.length - 1);
+
+                    ctx.moveTo(0, line.points[0].y);
+
+                    for (let i = 0; i < line.points.length - 1; i++) {
+                        const x1 = i * step;
+                        const x2 = (i + 1) * step;
+                        const y1 = line.points[i].y;
+                        const y2 = line.points[i + 1].y;
+
+                        // quadratic bezier curve — control point is between the two points
+                        // this is what makes it smooth and squiggly instead of jagged
+                        const cpx = (x1 + x2) / 2;
+                        const cpy = (y1 + y2) / 2;
+
+                        ctx.quadraticCurveTo(x1, y1, cpx, cpy);
+                    }
+
+                    ctx.stroke();
+                });
+
+                t++;
+                requestAnimationFrame(frame);
+            }
+
+            frame();
+        </script>
+    </body>
+</html>
