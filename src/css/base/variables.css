@@ -1,0 +1,21 @@
+:root {
+    --content-min-width: 180px;
+    --content-max-width: 768px;
+
+    --content-box-padding: 1.25rem; /* 20px */
+    --content-box-spacing: 1rem; /* 16px */
+    --content-text-padding: 0.75rem; /* 12px */
+
+    --content-title-size: 2rem; /* 32px */
+    --content-subtitle-size: 1.5rem; /* 24px */
+    --content-text-size: 1rem; /* 16px */
+
+    --fab-padding: 2.5rem; /* 40px */
+    --fab-spacing: 1.25rem; /* 20px */
+}
+
+@media (min-width: 768px) {
+    :root {
+        --fab-padding: 1.25rem; /* 20px */
+    }
+}

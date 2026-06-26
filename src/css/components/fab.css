@@ -1,15 +1,15 @@
 :root {
     --fab-padding: clamp(1rem, 5vw, 2.5rem);
-    --fab-gap: clamp(0.25rem, 5vw, 0.5rem);
+    --fab-gap: 10px;
     --fab-padding-btn: 0.75rem;
     --fab-border: 1px;
-    --fab-border-radius: 0.5rem;
+    --fab-border-radius: 0.625rem;
     --fab-button-size: calc(
         var(--fab-padding) * 2 + var(--fab-border) * 2 + 24px
     );
 }
-.fab {
-    z-index: 1;
+#fab-div {
+    z-index: 2;
     display: flex;
     position: fixed;
     align-items: center;
@@ -39,6 +39,10 @@
 .fab-btn:hover {
     background: var(--secondary);
     color: var(--secondary-foreground);
+}
+
+.fab-btn.hidden {
+    display: none;
 }
 
 .menu-button {

@@ -1,0 +1,26 @@
+:root {
+    --font-sans: "GeistSans", sans-serif;
+    --font-mono: "GeistMono", monospace;
+    --font-display: "Doto", sans-serif;
+}
+
+@font-face {
+    font-family: "Geist";
+    src: url("/assets/fonts/geist-regular.woff2") format("woff2");
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "GeistMono";
+    src: url("/assets/fonts/geist-mono-regular.woff2") format("woff2");
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Doto";
+    src: url("/assets/fonts/doto-variable.woff2") format("woff2");
+    font-weight: 100 900;
+    font-display: swap;
+}

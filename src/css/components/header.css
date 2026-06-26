@@ -1,0 +1,22 @@
+#main-header {
+    z-index: 1;
+    display: flex;
+    position: fixed;
+    align-items: center;
+    width: 100vw;
+    top: 0;
+    background-color: var(--secondary);
+    padding: var(--content-box-padding);
+}
+
+#header-items {
+    display: flex;
+    background-color: var(--secondary);
+    align-items: center;
+    justify-content: space-between;
+}
+#domain-name {
+    font-size: var(--content-subtitle-size);
+    text-align: center;
+    font-family: var(--font-sans);
+}
