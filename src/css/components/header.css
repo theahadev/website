@@ -1,22 +1,42 @@
-#main-header {
-    z-index: 1;
+.header {
+    z-index: 2;
     display: flex;
-    position: fixed;
-    align-items: center;
-    width: 100vw;
+
     top: 0;
-    background-color: var(--secondary);
-    padding: var(--content-box-padding);
+    width: 100vw;
+    position: sticky;
+
+    padding: var(--h-padding-hght) var(--h-padding-wdth);
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+
+    background-color: var(--background);
+    border-bottom: 1px solid var(--border);
 }
 
-#header-items {
-    display: flex;
-    background-color: var(--secondary);
-    align-items: center;
-    justify-content: space-between;
+.domain {
+    font-family: var(--f-body);
+    font-weight: 300;
+    font-size: 1.25rem;
+    line-height: 1.5;
 }
-#domain-name {
-    font-size: var(--content-subtitle-size);
-    text-align: center;
-    font-family: var(--font-sans);
+
+.theme-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 0 solid var(--border);
+
+    background-color: var(--background);
+    color: var(--foreground);
+    cursor: pointer;
+}
+
+.theme-btn:hover {
+    background: color-mix(in oklab, var(--accent) 50%, transparent);
+    color: var(--secondary-foreground);
 }

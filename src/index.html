@@ -22,37 +22,27 @@
         />
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="robots" content="noindex, nofollow" />
-        <title>Landing | ahathe.dev</title>
+        <title>Main | ahathe.dev</title>
         <link rel="stylesheet" href="css/main.css" />
     </head>
     <body>
-        <script src="anime.js"></script>
-        <script src="mouse.js"></script>
-        <noscript class="noscript">
-            <div
-                style="
-                    font-family: monospace;
-                    padding: 2rem;
-                    text-align: center;
-                "
-            >
-                <p>ahathe.dev requires JavaScript to run.</p>
-                <p>Please enable JS in your browser settings.</p>
-            </div>
-        </noscript>
-        <header id="main-header" class="header">
-            <div id="header-items" class="fill">
-                <p id="domain-name">ahathe.dev</p>
-                <i data-lucide="moon"></i>
-            </div>
-        </header>
-
-        <div id="fab-div" class="fab">
-            <button id="menu-button" class="fab fab-btn">
-                <i data-lucide="x"></i>
+        <header id="header" class="header">
+            <h2 id="header-domain" class="domain">ahathedev.</h2>
+            <button id="header-theme-btn" class="theme-btn">
+                <span class="icon moon medium"></span>
             </button>
-            <button id="top-button" class="fab fab-btn">
-                <i data-lucide="arrow-up"></i>
+        </header>
+        <main
+            hx-get="/pages/home.html"
+            hx-trigger="load"
+            hx-swap="innerHTML"
+        ></main>
+        <div id="fab-div" class="fab">
+            <button id="fab-menu-btn" class="fab fab-btn">
+                <span class="icon x"></span>
+            </button>
+            <button id="fab-top-btn" class="fab fab-btn">
+                <span class="icon arrow-up"></span>
             </button>
         </div>
         <script type="module" src="js/main.js"></script>

@@ -1,26 +1,96 @@
-:root {
-    --font-sans: "GeistSans", sans-serif;
-    --font-mono: "GeistMono", monospace;
-    --font-display: "Doto", sans-serif;
-}
-
 @font-face {
-    font-family: "Geist";
-    src: url("/assets/fonts/geist-regular.woff2") format("woff2");
-    font-weight: 400;
+    font-family: "Inter";
+    src: url(/assets/fonts/inter-latin-wght-normal.woff2)
+        format("woff2-variations");
+    font-weight: 100 900;
     font-display: swap;
 }
 
 @font-face {
     font-family: "GeistMono";
-    src: url("/assets/fonts/geist-mono-regular.woff2") format("woff2");
-    font-weight: 400;
+    src: url(/assets/fonts/geist-mono-latin-wght-normal.woff2)
+        format("woff2-variations");
+    font-weight: 100 900;
     font-display: swap;
 }
 
 @font-face {
     font-family: "Doto";
-    src: url("/assets/fonts/doto-variable.woff2") format("woff2");
+    src: url(/assets/fonts/doto-latin-wght-normal.woff2)
+        format("woff2-variations");
     font-weight: 100 900;
     font-display: swap;
+}
+
+/* set defaults and clean up stuff */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+    font-family: var(--f-prim);
+    line-height: var(--p-line-hght);
+    font-weight: 300;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    margin-inline: auto;
+    min-width: var(--m-min-wdth);
+    max-width: var(--m-max-wdth);
+    padding: var(--m-padding);
+    flex-direction: column;
+    gap: var(--m-spacing);
+}
+code,
+pre {
+    font-family: var(--f-mono);
+}
+
+section {
+    border-radius: var(--fab-border-radius);
+    border: var(--fab-border) solid var(--border);
+    width: 100%;
+}
+
+h1 {
+}
+
+section > h2 {
+    font-family: var(--f-title);
+    font-weight: var(--f-title-wght);
+    font-size: var(--h2-font-size);
+    line-height: var(--h2-line-hght);
+
+    display: flex;
+    align-items: center;
+
+    color: var(--muted-foreground);
+
+    gap: var(--s-h-icon-spacing);
+    padding: var(--s-padding-hght) var(--s-padding-wdth);
+
+    border-radius: 0;
+    border-bottom: var(--fab-border) solid var(--border);
+}
+
+section > p {
+    font-family: var(--f-body);
+    font-weight: var(--f-body-wght);
+    font-size: var(--p-font-size);
+    line-height: var(--p-line-hght);
+
+    display: flex;
+    align-items: center;
+    color: var(--foreground);
+
+    padding: var(--s-padding-hght) var(--s-padding-wdth);
 }

@@ -1,16 +1,42 @@
 :root {
-    --content-min-width: 180px;
-    --content-max-width: 768px;
+    /* font stuff */
+    --f-prim: "Inter", system-ui, sans-serif;
+    --f-mono:
+        "GeistMono", "Cascadia Code", "Fira Code", ui-monospace, monospace;
+    --f-display: "Doto", ui-monospace, monospace;
 
-    --content-box-padding: 1.25rem; /* 20px */
-    --content-box-spacing: 1rem; /* 16px */
-    --content-text-padding: 0.75rem; /* 12px */
+    --f-title: var(--f-mono);
+    --f-body: var(--f-prim);
 
-    --content-title-size: 2rem; /* 32px */
-    --content-subtitle-size: 1.5rem; /* 24px */
-    --content-text-size: 1rem; /* 16px */
+    --f-title-wght: 400;
+    --f-body-wght: 250;
 
-    --fab-padding: 2.5rem; /* 40px */
+    --h1-font-size: 1.5rem;
+    --h1-line-hght: 2rem;
+    --h2-font-size: 0.875rem;
+    --h2-line-hght: 1.25rem;
+    --p-font-size: 1rem;
+    --p-line-hght: 1.5rem;
+
+    /* the main content box */
+    --m-min-wdth: 180px;
+    --m-max-wdth: 768px;
+    --m-padding: 1.25rem; /* the one from sides */
+
+    --m-spacing: 1rem; /* the space between sections */
+
+    /*  stuff inside the sections */
+    --s-padding-hght: 0.75rem;
+    --s-padding-wdth: 1.25rem; /* between side border and text */
+
+    /* section header stuff */
+    --s-h-icon-spacing: 1rem; /* the space between icon and title */
+    --s-h-icon-size: 1rem; /* the size of the icon */
+
+    /* components */
+    --h-padding-hght: 0.75rem;
+    --h-padding-wdth: 1.25rem;
+    --header-spacing: 1rem;
     --fab-spacing: 1.25rem; /* 20px */
 }
 

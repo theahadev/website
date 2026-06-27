@@ -1,9 +1,18 @@
-@import url("themes/dark.css");
-@import url("style.css");
+/* reset the defaults */
+@import "normalize.css";
 
-@import url("base/classes.css");
-@import url("base/typography.css");
+/* make variables available immediately */
 @import url("base/variables.css");
 
+/* set fonts etc */
+@import url("base/typography.css");
+
+/* load theme: fixed dark theme for now */
+@import url("themes/dark.css");
+
+/* components */
+/* the icons thingy since i dont wanna use js for it */
+@import url("components/icon.css");
 @import url("components/fab.css");
 @import url("components/header.css");
+@import "lenis/dist/lenis.css";

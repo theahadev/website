@@ -1,14 +1,5 @@
-import { createIcons, X, ArrowUp } from "lucide";
-
 export function initFab() {
-  createIcons({
-    icons: {
-      X,
-      ArrowUp,
-    },
-  });
-
-  const topBtn = document.getElementById("top-button");
+  const topBtn = document.getElementById("fab-top-btn");
   topBtn.addEventListener("click", () => {
     window.scrollTo({
       top: 0,

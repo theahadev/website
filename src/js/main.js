@@ -1,5 +1,6 @@
 import { initFab } from "./components/fab.js";
-import { initHeader } from "./components/header.js";
+import "./base/scrolling.js";
+
+import htmx from "htmx.org";
 
 initFab();
-initHeader();

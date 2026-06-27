@@ -1,0 +1,51 @@
+.icon {
+    display: inline-block;
+    mask-size: contain;
+    background-color: currentColor;
+
+    width: 1.5rem;
+    height: 1.5rem;
+
+    &.arrow-up {
+        -webkit-mask: url("/assets/icons/arrow-up.svg") no-repeat center;
+        mask: url("/assets/icons/arrow-up.svg") no-repeat center;
+    }
+    &.x {
+        -webkit-mask: url("/assets/icons/x.svg") no-repeat center;
+        mask: url("/assets/icons/x.svg") no-repeat center;
+    }
+    &.moon {
+        -webkit-mask: url("/assets/icons/moon.svg") no-repeat center;
+        mask: url("/assets/icons/moon.svg") no-repeat center;
+    }
+    &.sun {
+        -webkit-mask: url("/assets/icons/sun.svg") no-repeat center;
+        mask: url("/assets/icons/sun.svg") no-repeat center;
+    }
+    &.server {
+        -webkit-mask: url("/assets/icons/server.svg") no-repeat center;
+        mask: url("/assets/icons/server.svg") no-repeat center;
+    }
+    &.list-todo {
+        -webkit-mask: url("/assets/icons/list-todo.svg") no-repeat center;
+        mask: url("/assets/icons/list-todo.svg") no-repeat center;
+    }
+    &.square-pen {
+        -webkit-mask: url("/assets/icons/square-pen.svg") no-repeat center;
+        mask: url("/assets/icons/square-pen.svg") no-repeat center;
+    }
+    &.book-open-text {
+        -webkit-mask: url("/assets/icons/book-open-text.svg") no-repeat center;
+        mask: url("/assets/icons/book-open-text.svg") no-repeat center;
+    }
+    &.small {
+        mask-size: contain;
+        width: 1rem;
+        height: 1rem;
+    }
+    &.medium {
+        mask-size: contain;
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+}
